@@ -1,0 +1,34 @@
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6 text-center">Lugares Disponibles</h1>
+
+
+  <div *ngIf="loading" class="spinner-container flex justify-center flex-col items-center">
+    <div class="spinner"></div>
+    <p>Cargando lugares...</p>
+  </div>
+  <div *ngIf="!loading">
+    <!-- Verificación de si hay lugares disponibles -->
+    <div *ngIf="listPlaces.length === 0" class="text-center text-gray-500">
+      No se encontraron lugares.
+    </div>
+
+    <!-- Lista de lugares -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let place of listPlaces" class="bg-white shadow-lg rounded-lg p-6 card">
+        <h2 class="text-xl font-bold">{{ place.name }}</h2>
+        <p class="text-gray-700">{{ place.description }}</p>
+        <p class="text-sm text-gray-500">Capacidad: {{ place.capacity }}</p>
+        <!-- Añadir otros detalles que desees mostrar -->
+        <div class="mt-4 flex justify-between">
+          <button class=" text-white py-2 px-4 rounded-md " (click)="showDetails(place)">
+            Ver Detalles
+          </button>
+          <button *ngIf="user?.userType === 'adminType'"
+            class=" text-white py-2 px-4 rounded-md"
+            (click)="editPlace(place)">Editar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,144 @@
+<!-- Formulario para crear o editar un lugar -->
+<div >  
+  <h2 class="text-3xl font-bold mb-6 text-center">{{ placeId ? 'Editar Lugar' : 'Crear Lugar' }}</h2>
+  <div *ngIf="loading && placeId" class="spinner-container flex justify-center flex-col items-center">
+   
+    <div class="spinner"></div>
+    <p>Cargando informacion...</p>
+  </div>
+  <form [formGroup]="placeForm" (ngSubmit)="submitForm()" class="space-y-6 bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
+    <!-- Name Field -->
+  <div>
+    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+    <input id="name" formControlName="name" type="text" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    <div *ngIf="placeForm.get('name')?.invalid && placeForm.get('name')?.touched" class="text-red-500 text-sm mt-2">
+      Nombre requerido debe tener mas de 3 caracteres.
+    </div>
+  </div>
+
+  <!-- Description Field -->
+  <div>
+    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+    <textarea id="description" formControlName="description" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+    <div *ngIf="placeForm.get('description')?.invalid && placeForm.get('description')?.touched" class="text-red-500 text-sm mt-2">
+      Descripcion es requerida.
+    </div>
+  </div>
+
+  <!-- Capacity Field -->
+  <div>
+    <label for="capacity" class="block text-sm font-medium text-gray-700">Capacity</label>
+    <input id="capacity" formControlName="capacity" type="number" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    <div *ngIf="placeForm.get('capacity')?.invalid && placeForm.get('capacity')?.touched" class="text-red-500 text-sm mt-2">
+      Capacidad debe ser mayor a 0.
+    </div>
+  </div>
+
+
+    <div class="border p-4 mb-4 rounded-md">
+      <!-- Disponible desde (Fecha de inicio) -->
+      <div>
+        <label for="available_from">Disponible Desde:</label>
+        <input formControlName="available_from" id="available_from" type="date" [value]="today" [min]="today" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+        <div *ngIf="placeForm.get('available_from')?.invalid && placeForm.get('available_from')?.touched" class="text-red-500 text-sm mt-2">
+          Fecha de inicio es requerida.
+        </div>
+      </div>
+    
+      <!-- Disponible hasta (Fecha de fin) -->
+      <div>
+        <label for="available_to">Disponible Hasta:</label>
+        <input formControlName="available_to" id="available_to" type="date" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"/>
+        <div *ngIf="placeForm.get('available_to')?.invalid && placeForm.get('available_to')?.touched" class="text-red-500 text-sm mt-2">
+          Fecha de fin es requerida.
+        </div>
+      </div>
+    
+      <!-- Horas de disponibilidad (rango de horas) -->
+      <!-- Start Time Field -->
+      <div>
+        <label for="startTime" class="block text-sm font-medium text-gray-700">Start Time</label>
+        <input id="startTime" formControlName="startTime" type="time"
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <div *ngIf="placeForm.get('startTime')?.invalid && placeForm.get('startTime')?.touched" class="text-red-500 text-sm mt-2">
+          Hora de inicio es requerida.
+        </div>
+      </div>
+    
+      <!-- End Time Field -->
+      <div>
+        <label for="endTime" class="block text-sm font-medium text-gray-700">End Time</label>
+        <input id="endTime" formControlName="endTime" type="time"
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <div *ngIf="placeForm.get('endTime')?.invalid && placeForm.get('endTime')?.touched" class="text-red-500 text-sm mt-2">
+          Hora de fin es requerida.
+        </div>
+      </div>
+    
+      <!-- Hidden Field for default_hours -->
+      <input type="hidden" formControlName="default_hours">
+    </div>
+
+    <!-- Días de disponibilidad (checkbox para seleccionar los días) -->
+    <div class="border p-4 mb-4 rounded-md">
+      <label for="default_days" class="block text-sm font-medium text-gray-700">Días de Disponibilidad</label>
+      <div *ngFor="let day of daysOfWeek; let i = index">
+        <input 
+          type="checkbox" 
+          [value]="day" 
+          [checked]="isDaySelected(day)" 
+          (change)="onDayChange(day, $event)"
+        /> 
+        {{ day }}
+      </div>
+    </div>
+
+    <!-- Imágenes -->
+    <div>
+      <label for="images" class="block text-sm font-medium text-gray-700">images</label>
+      <input id="images" formControlName="images" type="file" (change)="onFileChange($event)" multiple class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+      <div *ngIf="imageUrls.length">
+        <div *ngFor="let imageUrl of imageUrls">
+          <img [src]="imageUrl" alt="Imagen del lugar" width="100" height="100" />
+        </div>
+      </div>
+      
+      <div *ngIf="placeForm.get('images')?.invalid && placeForm.get('images')?.touched" class="text-red-500 text-sm mt-2">
+        images are required.
+      </div>
+    </div>
+
+    <!-- Tipo de lugar -->
+    <div> 
+      <label for="type" class="block text-sm font-medium text-gray-700">Tipo</label>
+      <select formControlName="type" id="type" class="form-select mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <option value="">Seleccione un tipo</option> 
+        <option value="salon">Salón</option>
+        <option value="auditorio">Auditorio</option>
+        <option value="sala de reunion">Sala de reunión</option>
+        <option value="sala de conferencia">Sala de conferencia</option>
+      </select>
+    </div>
+    
+
+    <!-- Activo -->
+    <div>
+      <label for="active" class="block text-sm font-medium text-gray-700">Activo</label>
+      <select formControlName="active" id="active"
+        class="form-select mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        <option value="">Seleccione un tipo</option>
+        <option value="1">Si</option>
+        <option value="0">No</option>
+    
+      </select>
+    </div>
+    
+    <!-- Submit Button [disabled]="placeForm.invalid"-->
+    <button type="submit" 
+      class="mt-6 w-full inline-flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer">
+      {{ placeId ? 'Actualizar' : 'Crear' }}
+    </button>
+
+  </form>
+</div>

@@ -1,0 +1,264 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Definición de variables */
+$primary-color: #3f0ba1;
+$light-color: #f1e4ff;
+$contrast-color: #ffd700;
+$neutral-color: #f5f5f5;
+$complementary-color: #0ba19e;
+$dark-color: #2b0a6f;
+
+body {
+  background-color: $neutral-color;
+  color: $dark-color;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $primary-color;
+}
+
+p {
+  color: $dark-color;
+}
+
+a {
+  color: $complementary-color;
+  text-decoration: none;
+  
+  &:hover {
+    color: $contrast-color;
+    text-decoration: underline;
+  }
+}
+
+button {
+  background-color: $primary-color;
+  color: $light-color;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  &:hover {
+    background-color: $complementary-color;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    background-color: $contrast-color;
+    color: white;
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    background-color: grey;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &.small {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+
+  &.large {
+    padding: 15px 30px;
+    font-size: 18px;
+  }
+
+  &.icon-button {
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    i {
+      font-size: 20px;
+      color: $light-color;
+    }
+  }
+
+  &.icon-text-button {
+    i {
+      margin-right: 8px;
+    }
+  }
+
+  .btn-text {
+    margin-left: 8px;
+  }
+}
+
+header {
+  background-color: $primary-color;
+  padding: 20px;
+  text-align: center;
+}
+
+footer {
+  background-color: $dark-color;
+  color: $light-color;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  background-color: white;
+  border: 1px solid $primary-color;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    color: $primary-color;
+  }
+}
+
+.navbar {
+  background-color: $primary-color; 
+  color: $light-color; 
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  
+  a {
+    color: $light-color; 
+    text-decoration: none;
+    margin: 0 15px;
+    transition: color 0.3s;
+
+    &:hover {
+      color: $contrast-color; 
+    }
+  }
+
+  h1 {
+    color: $light-color;
+  }
+
+  button{
+    background-color: $light-color;
+    color: $primary-color;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    &:hover {
+      background-color: $contrast-color;
+      color: $light-color;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+
+.sidebar {
+  background-color: $dark-color; 
+  color: $light-color; 
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  
+  a {
+    color: $contrast-color; 
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+
+    
+    &:hover {
+      background-color: $complementary-color; 
+      color: $dark-color; 
+    }
+  }
+
+  
+  h2 {
+    color: $light-color; 
+    margin-bottom: 20px;
+  }
+}
+
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: #3f0ba1;
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.banner {
+  background: linear-gradient(to right, #3f0ba1, #0ba19e);  
+  text-align: center; 
+  padding: 16px; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px; 
+
+  h2 {
+    font-size: 24px; 
+    margin-bottom: 8px;
+    color: $light-color;
+  }
+
+  p {
+    font-size: 16px; 
+    margin-bottom: 0;
+    color: $light-color;
+  }
+}

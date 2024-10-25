@@ -1,0 +1,53 @@
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6 text-center">Reserva un Lugar</h1>
+
+  <div *ngIf="loading" class="spinner-container flex justify-center flex-col items-center my-3">
+    <div class="spinner"></div>
+    <p>Reservando lugar...</p>
+  </div>
+
+  <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()" class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8">
+    <input type="text" formControlName="placeId" hidden="true" value="{{placeId}}">
+    <!--  -->
+
+    <div class="mb-4">
+      <label for="eventName" class="block text-sm font-semibold mb-2">Nombre del evento:</label>
+      <input id="eventName" formControlName="eventName" rows="3" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2"/>
+    </div>
+
+    <div class="mb-4">
+      <label for="startDate" class="block text-sm font-semibold mb-2">Fecha de la reserva:</label>
+      <input id="startDate" type="date" formControlName="startDate" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2" />
+      <div *ngIf="reservationForm.get('startDate')?.invalid && (reservationForm.get('startDate')?.touched || reservationForm.get('startDate')?.dirty)" class="text-red-500 text-sm mt-1">
+        La fecha de inicio es requerida.
+      </div>
+    </div>
+    <div class="mb-4">
+      <label for="endDate" class="block text-sm font-semibold mb-2">Fecha de la reserva:</label>
+      <input id="endDate" type="date" formControlName="endDate" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2" />
+      <div *ngIf="reservationForm.get('endDate')?.invalid && (reservationForm.get('endDate')?.touched || reservationForm.get('endDate')?.dirty)" class="text-red-500 text-sm mt-1">
+        La fecha de fin es requerida.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="startTime" class="block text-sm font-semibold mb-2">Hora de inicio:</label>
+      <input id="startTime" type="time" formControlName="startTime" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2" />
+      <div *ngIf="reservationForm.get('startTime')?.invalid && (reservationForm.get('startTime')?.touched || reservationForm.get('startTime')?.dirty)" class="text-red-500 text-sm mt-1">
+        La hora de inicio es requerida.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="endTime" class="block text-sm font-semibold mb-2">Hora de fin:</label>
+      <input id="endTime" type="time" formControlName="endTime" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2" />
+      <div *ngIf="reservationForm.get('endTime')?.invalid && (reservationForm.get('endTime')?.touched || reservationForm.get('endTime')?.dirty)" class="text-red-500 text-sm mt-1">
+        La hora de fin es requerida.
+      </div>
+    </div>    
+
+    <button type="submit" class="w-full  text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50">
+      Reservar
+    </button>
+  </form>
+</div>

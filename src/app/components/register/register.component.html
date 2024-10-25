@@ -1,0 +1,50 @@
+<div class="container mx-auto p-6">
+  <div class="banner text-center py-4 rounded-lg shadow-lg mb-6">
+    <h2 class="text-lg font-semibold">Bienvenido a Nuestra Plataforma de reserva de espacios</h2>
+    <p class="text-sm">Por favor, registrate para comenzar.</p>
+  </div>
+
+
+  <h1 class="text-3xl font-bold mb-6 text-center">Registro de Usuario</h1>
+
+  <div *ngIf="loading" class="spinner-container flex justify-center flex-col items-center my-3">
+    <div class="spinner"></div>
+    <p>Registrando usuario...</p>
+  </div>
+  
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8">
+    <div class="mb-4">
+      <label for="name" class="block text-sm font-semibold mb-2">Usuario:</label>
+      <input id="name" type="text" formControlName="name" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2" />
+      <div *ngIf="registerForm.get('name')?.invalid && (registerForm.get('name')?.touched || registerForm.get('name')?.dirty)" class="text-red-500 text-sm mt-1">
+        El usuario es requerido.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="email" class="block text-sm font-semibold mb-2">Correo Electrónico:</label>
+      <input id="email" type="email" formControlName="email" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2" />
+      <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.touched || registerForm.get('email')?.dirty)" class="text-red-500 text-sm mt-1">
+        El correo electrónico es requerido.
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="password" class="block text-sm font-semibold mb-2">Contraseña:</label>
+      <input id="password" type="password" formControlName="password" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2" />
+      <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.touched || registerForm.get('password')?.dirty)" class="text-red-500 text-sm mt-1">
+        La contraseña es requerida.
+      </div>
+    </div>
+
+    <button type="submit" class="w-full text-white py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50" style="background-color: #3f0ba1;">
+      Registrarse
+    </button>
+
+    <p class="text-center mt-4">
+      ¿Ya tienes una cuenta? 
+      <a routerLink="/login" class="text-[#0ba19e] font-semibold hover:underline">Inicia sesión aquí</a>
+    </p>
+  </form>
+</div>
+

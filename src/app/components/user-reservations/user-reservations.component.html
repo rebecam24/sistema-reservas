@@ -1,0 +1,69 @@
+<div class="container mx-auto p-6">
+  <h1 class="text-2xl font-bold mb-6">Mis Reservaciones</h1>
+
+  <div *ngIf="loading" class="spinner-container flex justify-center flex-col items-center my-3">
+    <div class="spinner"></div>
+    <p>Cargando reservaciones...</p>
+  </div>
+
+  <!-- Lista de reservaciones -->
+  <div *ngIf="reservations.length > 0; else noReservations">
+    <div *ngFor="let reservation of reservations" class="bg-white shadow-lg rounded-lg p-6 mb-4">
+
+      <!-- Detalles de la reservación -->
+      <h2 class="text-xl font-bold">Lugar: {{ reservation.placeName }}</h2>
+      <h2 class="text-xl font-bold">Evento: {{ reservation.eventName }}</h2>
+
+      <p class="text-gray-700">Fecha: {{ reservation.startDate }} - {{ reservation.endDate }}</p>
+      <p class="text-gray-700">Horario: {{ reservation.startTime }} - {{ reservation.endTime }}</p>
+
+      <!-- Botones de acciones -->
+      <div class="mt-4">
+        <button (click)="selectReservation(reservation)" class="text-white py-2 px-4 rounded-md  mr-2">
+          Modificar
+        </button>
+        <button (click)="cancelReservation(reservation.id)" class="bg-[#0ba19e] text-white py-2 px-4 rounded-md hover:bg-[#3f0ba1]">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensaje si no hay reservaciones -->
+  <ng-template #noReservations>
+    <p class="text-gray-500">No tienes reservaciones.</p>
+  </ng-template>
+
+  <!-- Formulario de modificación de reservación -->
+  <div *ngIf="selectedReservation" class="mt-8">
+    <h3 class="text-xl font-bold mb-4">Modificar Reservación</h3>
+
+    <form [formGroup]="reservationForm" (ngSubmit)="saveChanges()" class="max-w-lg mx-auto bg-white shadow-lg rounded-lg p-6">
+      <div class="mb-4">
+        <label for="reservationDate" class="block text-sm font-semibold mb-2">Fecha de Reservación:</label>
+        <input id="reservationDate" type="date" formControlName="reservationDate" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3f0ba1]" />
+      </div>
+
+      <div class="mb-4">
+        <label for="startTime" class="block text-sm font-semibold mb-2">Hora de Inicio:</label>
+        <input id="startTime" type="time" formControlName="startTime" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3f0ba1]" />
+      </div>
+
+      <div class="mb-4">
+        <label for="endTime" class="block text-sm font-semibold mb-2">Hora de Fin:</label>
+        <input id="endTime" type="time" formControlName="endTime" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3f0ba1]" />
+      </div>
+
+      <div class="mb-4">
+        <label for="comments" class="block text-sm font-semibold mb-2">Comentarios:</label>
+        <textarea id="comments" formControlName="comments" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3f0ba1]"></textarea>
+      </div>
+
+      <button type="submit" class="w-full text-white py-2 rounded-md ">
+        Guardar Cambios
+      </button>
+    </form>
+
+    <button (click)="clearSelection()" class="mt-4 bg-[#0ba19e] text-white py-2 px-4 rounded-md hover:bg-[#3f0ba1]">Cancelar modificacion</button>
+  </div>
+</div>
