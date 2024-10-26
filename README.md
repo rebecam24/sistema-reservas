@@ -1,27 +1,62 @@
-# SistemaReservas
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.7.
+# Interfaz de Usuario para Gestión de Reservas de Espacios
 
-## Development server
+Este proyecto es una aplicación construida con Angular que permite a los usuarios gestionar reservas de lugares. La aplicación ofrece diferentes funcionalidades según el tipo de usuario.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Requisitos
 
-## Code scaffolding
+- Node.js (versión recomendada: 18.x o superior)
+- Angular CLI (versión recomendada: 18.x)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Paquetes Utilizados
 
-## Build
+La aplicación utiliza los siguientes paquetes:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **ngx-toastr**: ^19.0.0 - Notificaciones tipo toast para informar al usuario.
+- **Tailwind CSS**: ^3.4.13 - Framework CSS para diseño de interfaz.
 
-## Running unit tests
+## Instalación
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Clona el repositorio:
 
-## Running end-to-end tests
+   git clone https://github.com/rebecam24/sistema-reservas.git
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+2. Navega al directorio del proyecto:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+   cd sistema-reservas
+
+
+3. Instala las dependencias:
+
+   npm install
+
+
+4. Inicia el servidor de desarrollo:
+
+   ng serve
+
+
+5. Abre tu navegador y accede a:
+
+   http://localhost:4200
+
+
+## Funcionalidades
+
+La aplicación permite a los usuarios gestionar reservas con las siguientes funcionalidades:
+
+### Usuarios Administradores
+
+Los usuarios con rol de administrador tienen acceso a:
+
+- **CRUD de Lugares**: Crear, Leer, Actualizar y Eliminar lugares.
+- **Filtrado de Lugares**: Aplicar filtros para visualizar lugares específicos.
+
+### Usuarios Regulares
+
+Los usuarios regulares tienen acceso a:
+
+- **Gestión de Reservas**: Crear, modificar o cancelar reservas.
+- **Visualización y Filtrado de Lugares**: Ver y aplicar filtros a los lugares disponibles.
+
