@@ -1,0 +1,45 @@
+<form (ngSubmit)="applyFilter()" #filterForm="ngForm" class="bg-white shadow-lg rounded-lg p-8">
+  <h3 class="text-xl font-bold mb-4">Filtros</h3>
+  <div class="py-6 my-6 flex justify-between flex-wrap">
+    <div>
+      <label for="type" class="block text-sm font-medium text-gray-700">Tipo de lugar</label>
+      <input type="text" id="type" name="type" [(ngModel)]="filters.type"
+        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3f0ba1]" />
+    </div>
+
+    <div>
+      <label for="capacity" class="block text-sm font-medium text-gray-700">Capacidad minima</label>
+      <input type="number" id="capacity" name="capacity" [(ngModel)]="filters.capacity"
+        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3f0ba1]" />
+    </div>
+
+    <div>
+      <label for="start_date" class="block text-sm font-medium text-gray-700">Fecha de Inicio</label>
+      <input type="date" id="start_date" name="start_date" [(ngModel)]="filters.start_date"
+        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3f0ba1]" />
+    </div>
+
+    <div>
+      <label for="end_date" class="block text-sm font-medium text-gray-700">Fecha de Fin</label>
+      <input type="date" id="end_date" name="end_date" [(ngModel)]="filters.end_date"
+        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3f0ba1]" />
+    </div>
+
+    <div>
+      <label for="start_time" class="block text-sm font-medium text-gray-700">Hora de inicio</label>
+      <input type="time" id="start_time" name="start_time" [(ngModel)]="filters.start_time"
+        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3f0ba1]" />
+    </div>
+    <div>
+      <label for="end_time" class="block text-sm font-medium text-gray-700">Hora de fin</label>
+      <input type="time" id="end_time" name="end_time" [(ngModel)]="filters.end_time"
+        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3f0ba1]" />
+    </div>
+  </div>
+  <div class="w-full flex justify-end">
+    <button type="submit" class="flex items-end">Filtrar</button>
+  </div>
+
+</form>
+
+

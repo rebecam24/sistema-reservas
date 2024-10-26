@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { allDataPlaces, dataPlace } from '../../components/place/mockdata';
 import { IApiResponsePlaces, IPlace, ISchedule } from '../../interfaces/place';
 import { Booking, IReservation, IResponseAPIReservation } from '../../interfaces/reservation';
@@ -115,6 +115,36 @@ export class PlaceService {
       );
     });
   }
+
+  filterPlaces(filters: any): Promise<IPlace[]> {
+    let headers = new HttpHeaders();
+
+    if (this.currentUser && this.currentUser.token) {
+      headers = headers.append('Authorization', `Bearer ${this.currentUser.token}`);        
+    }
+    return new Promise((resolve, reject) => {
+      let params = new HttpParams();
+  
+      Object.keys(filters).forEach(key => {
+        const value = filters[key];
+        if (value) {
+          params = params.set(key, value);
+        }
+      });
+  
+      this.http.get<IApiResponsePlaces>(`${environment.apiUrl}/filter-places`, { params, headers } ).subscribe(
+        (data) => {
+          const places = Array.isArray(data.data.places) ? data.data.places : [data.data.places];
+          resolve(places);
+        },
+        (error) => {
+          console.error('Error fetching filtered places:', error);
+          reject(error); 
+        }
+      );
+    });
+  }
+  
 //------------------------------------------------------------->RESERVATION
   createReservation(data: any, ismock = false): Promise<any> {
     let headers = new HttpHeaders();
@@ -161,7 +191,7 @@ export class PlaceService {
           startTime: booking.start_time,
           endTime: booking.end_time,
           eventName: booking.event_name,
-          placeName: booking.place.name
+          placeName: booking.place?.name
         }));
         resolve(reservations);
         },
@@ -179,8 +209,16 @@ export class PlaceService {
       if (this.currentUser && this.currentUser.token) {
         headers = headers.append('Authorization', `Bearer ${this.currentUser.token}`);        
       }
-      if (ismock) return resolve(data);
-      return this.http.put(`${this.apiUrl}/reservations/${id}`, data, { headers }).subscribe(
+      const reservations: Booking = { 
+        id: data.id,
+        place_id: data.placeId,
+        start_date: data.startDate,
+        end_date: data.endDate,
+        start_time: data.startTime,
+        end_time: data.endTime,
+        event_name: data.eventName
+      }
+      return this.http.put(`${this.apiUrlReservation}/${id}`, reservations, { headers }).subscribe(
         (data) => {
           resolve(data);
         },
@@ -200,7 +238,6 @@ export class PlaceService {
     return new Promise((resolve, reject) => {
       this.http.get<ISchedule>(`${this.apiUrl}/${placeId}/booked-schedule`, { headers }).subscribe(
         (data) => {
-          console.log(data.booked_schedule);
           resolve(data);
         },
         (error) => {
@@ -208,5 +245,23 @@ export class PlaceService {
         }
       );
     })
+  }
+
+  cancelReservation(id: number): Promise<any> {
+    let headers = new HttpHeaders();
+
+    if (this.currentUser && this.currentUser.token) {
+      headers = headers.append('Authorization', `Bearer ${this.currentUser.token}`);        
+    }
+    return new Promise((resolve, reject) => {
+      this.http.put(`${this.apiUrlReservation}/${id}/cancel`,{}, { headers }).subscribe(
+        (data) => {
+          resolve(data);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
   }
 }

@@ -44,10 +44,24 @@ export class PlaceViewComponent implements OnInit {
 
   async loadLocal(id: number) {
     this.loading = true;
-    this.place = await this.placeService.getPlaceById(id, environment.mockData);
-    const schedules = await this.placeService.getBookedSchedule(id);
-
+    await this.placeService.getPlaceById(id, environment.mockData).then((data) => {
+      if (data) {
+        return this.place = data;
+      }
+      return null;
+    }).catch((error) => {
+      console.log(error);
+    });
+    
+    await this.placeService.getBookedSchedule(id).then((data) => {
+      if (data) {
+        this.schedules = data?.booked_schedule;
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
+    
     this.loading = false;
-    this.schedules = schedules.booked_schedule;
+    console.log(this.user?.userType);
   }
 }

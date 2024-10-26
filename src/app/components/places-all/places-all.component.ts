@@ -7,11 +7,12 @@ import { environment } from '../../../enviroments/enviroments';
 import { NotificationService } from '../../services/notification/notification.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { IAuth } from '../../interfaces/auth';
+import { FilterPlacesComponent } from "../filter-places/filter-places.component";
 
 @Component({
   selector: 'app-places-all',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FilterPlacesComponent],
   templateUrl: './places-all.component.html',
   styleUrl: './places-all.component.scss',
 })
@@ -19,6 +20,7 @@ export class PlacesAllComponent {
   listPlaces: IPlace[] = [];
   user: IAuth | null = null;
   loading: boolean = false;
+  filteredPlaces: IPlace[] = [];
 
   constructor(
     private placeService: PlaceService,
@@ -50,11 +52,21 @@ export class PlacesAllComponent {
   }
 
   showDetails(place: IPlace) {
-    console.log('Ver detalles', place);
     this.router.navigate([`dashboard/places/view/${place.id}`]);
   }
 
   editPlace(place: IPlace) {
     this.router.navigate([`dashboard/places/edit/${place.id}`]);
+  }
+
+  onFiltersApplied(filters: any) {
+    this.loading = true;
+    this.placeService.filterPlaces(filters).then(places => {
+      this.listPlaces = places;
+      this.loading = false;
+    }).catch(err => {
+      console.error(err);
+      this.loading = false;
+    });
   }
 }

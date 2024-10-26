@@ -32,16 +32,17 @@ export class UserReservationsComponent {
     private authService: AuthService
   ) {
     this.reservationForm = this.fb.group({
-      reservationDate: ['', Validators.required],
-      startTime: ['', Validators.required],
-      endTime: ['', Validators.required],
-      comments: [''],
+      placeId: [''],
+      startDate: [''],
+      endDate: [''],
+      startTime: [''],
+      endTime: [''],
+      eventName: [''],
     });
   }
 
   ngOnInit(): void {
-    const userId = this.authService.getCurrentUser(); 
-    console.log('User ID:', userId);
+    const userId = this.authService.getCurrentUser();
     this.loadReservations();
   }
 
@@ -69,10 +70,13 @@ export class UserReservationsComponent {
   selectReservation(reservation: any) {
     this.selectedReservation = reservation;
     this.reservationForm.patchValue({
-      reservationDate: reservation.reservationDate,
-      startTime: reservation.startTime,
-      endTime: reservation.endTime,
-      comments: reservation.comments,
+      placeId: reservation.placeId,
+      startDate: reservation.startDate.slice(0, 10),
+      endDate: reservation.endDate.slice(0, 10),
+      eventName: reservation.eventName,
+      startTime: reservation.startTime.slice(0, 5),
+      endTime: reservation.endTime.slice(0, 5),
+      
     });
   }
 
@@ -90,6 +94,7 @@ export class UserReservationsComponent {
             'Éxito'
           );
           this.loadReservations(); 
+          this.clearSelection();
         })
         .catch((error) => {
           this.notificationService.showError(
@@ -101,8 +106,23 @@ export class UserReservationsComponent {
   }
 
   // Cancelar la reservación seleccionada
-  cancelReservation(reservationId: number) {
-   console.log('cancelReservation', reservationId);
+  async cancelReservation(reservationId: number) {
+    await this.reservationService
+      .cancelReservation(reservationId)
+      .then(() => {
+        this.notificationService.showSuccess(
+          'Reservación cancelada exitosamente',
+          'Éxito'
+        );
+        this.loadReservations();
+        this.clearSelection();
+      })
+      .catch((error) => {
+        this.notificationService.showError(
+          `Error al cancelar la reservación, ${error.error.message} `,
+          'Error'
+        );
+      });
   }
 
   // Limpiar la selección de reservación

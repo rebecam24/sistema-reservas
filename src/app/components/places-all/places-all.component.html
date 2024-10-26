@@ -6,6 +6,9 @@
     <div class="spinner"></div>
     <p>Cargando lugares...</p>
   </div>
+
+  <app-filter-places (filtersApplied)="onFiltersApplied($event)"></app-filter-places>
+
   <div *ngIf="!loading">
     <!-- Verificación de si hay lugares disponibles -->
     <div *ngIf="listPlaces.length === 0" class="text-center text-gray-500">

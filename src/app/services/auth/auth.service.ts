@@ -45,7 +45,6 @@ export class AuthService {
             timeExpiration: new Date(new Date().getDate() + 1),
           }
           this.currentUser = mapperResponseAuth;
-          console.log('login:currentUser:: ', this.currentUser);
           this.setCurrentUser(mapperResponseAuth);
           resolve(mapperResponseAuth);
         },
@@ -58,7 +57,6 @@ export class AuthService {
   }
 
   logout() {
-    console.log('logout');
     this.currentUser = null;
     this.router.navigate(['/login']);
   }
@@ -88,6 +86,7 @@ export class AuthService {
             token: data.data.access_token,
             username: data.data.user.name,
             timeExpiration: new Date(new Date().getDate() + 1),
+            userType: data.data.role[0] === 'admin' ? 'adminType' : 'regularType',
           }
           this.currentUser = mapperResponseAuth;
           this.setCurrentUser(mapperResponseAuth);

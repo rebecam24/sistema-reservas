@@ -1,12 +1,11 @@
-<div class="container mx-auto p-6">
-  <h1 class="text-3xl font-bold mb-6 text-center">Reserva un Lugar</h1>
-
+<div class="mx-auto">  
   <div *ngIf="loading" class="spinner-container flex justify-center flex-col items-center my-3">
     <div class="spinner"></div>
     <p>Reservando lugar...</p>
   </div>
-
+  
   <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()" class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8">
+    <h1 class="text-3xl font-bold mb-6 text-center">Reserva el Lugar</h1>
     <input type="text" formControlName="placeId" hidden="true" value="{{placeId}}">
     <!--  -->
 

@@ -32,9 +32,6 @@ export class PlaceReservationComponent {
     });
   }
 
-  ngOnInit() {
-    console.log('Place ID:', this.placeId);
-  }
   onSubmit() {
     this.reservationForm.setValue({
       ...this.reservationForm.value,
@@ -57,7 +54,6 @@ export class PlaceReservationComponent {
         })
       
     } else {
-      console.log('Formulario no válido', this.reservationForm.value);
       this.toastr.showError('Formulario no valido', 'Error');
     }
   }

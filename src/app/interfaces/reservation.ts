@@ -21,18 +21,16 @@ export interface Data {
 
 export interface Booking {
   id: number
-  user_id: number
+  user_id?: number
   place_id: number
   event_name: string
   start_date: string
   end_date: string
   start_time: string
   end_time: string
-  status: string
-  created_at: string
-  updated_at: string
-  place: Place
-  user: User
+  status?: string
+  place?: Place
+  user?: User
 }
 
 export interface Place {
